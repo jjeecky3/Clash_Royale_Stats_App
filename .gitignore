@@ -1,0 +1,18 @@
+# Ignore Python virtual environment
+venv/
+
+# Ignore Flask server logs
+flask.log
+
+# Ignore temporary files
+*.pyc
+
+# Ignore IDE specific files
+.idea/
+
+# Ignore system files
+.DS_Store
+Thumbs.db
+
+# Ignore API token
+config.py

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clash Royale Stats & Roast</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="bg-animated"></div>
+    
+    <div class="container">
+        <header>
+            <h1 class="logo">⚔️ Clash Royale Stats ⚔️</h1>
+            <p class="subtitle">Get roasted based on your performance! 🔥</p>
+        </header>
+        
+        <main>
+            <div class="card search-form">
+                <form action="#" method="GET" onsubmit="searchPlayer(event)">
+                    <div class="input-group">
+                        <input 
+                            type="text" 
+                            id="playerTag" 
+                            name="tag" 
+                            placeholder="Enter your player tag (e.g., #2PP or 2PP)"
+                            required
+                            autocomplete="off"
+                        >
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">
+                        🔍 Search Player
+                    </button>
+                </form>
+                
+                <div style="margin-top: var(--spacing-lg); padding-top: var(--spacing-lg); border-top: 1px solid rgba(255,255,255,0.1);">
+                    <p style="color: var(--text-secondary); font-size: 0.9rem; text-align: center;">
+                        💡 <strong>Tip:</strong> Find your player tag in-game by tapping your profile!
+                    </p>
+                </div>
+            </div>
+            
+            <div style="margin-top: var(--spacing-xl); text-align: center;">
+                <h2 class="section-title">How it works</h2>
+                <div class="stats-grid" style="margin-top: var(--spacing-md);">
+                    <div class="stat-card">
+                        <div style="font-size: 2.5rem; margin-bottom: var(--spacing-sm);">📊</div>
+                        <h3 style="color: var(--cr-gold); margin-bottom: var(--spacing-xs);">Analyze Stats</h3>
+                        <p style="color: var(--text-secondary); font-size: 0.9rem;">
+                            We pull your latest stats from the Clash Royale API
+                        </p>
+                    </div>
+                    <div class="stat-card">
+                        <div style="font-size: 2.5rem; margin-bottom: var(--spacing-sm);">🧮</div>
+                        <h3 style="color: var(--cr-gold); margin-bottom: var(--spacing-xs);">Calculate Metrics</h3>
+                        <p style="color: var(--text-secondary); font-size: 0.9rem;">
+                            Win rate, trophy progress, and card levels analyzed
+                        </p>
+                    </div>
+                    <div class="stat-card">
+                        <div style="font-size: 2.5rem; margin-bottom: var(--spacing-sm);">🔥</div>
+                        <h3 style="color: var(--cr-gold); margin-bottom: var(--spacing-xs);">Get Roasted</h3>
+                        <p style="color: var(--text-secondary); font-size: 0.9rem;">
+                            Receive humorous roasts based on your performance
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

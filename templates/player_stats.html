@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ stats.name }} - Clash Royale Stats</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="bg-animated"></div>
+
+    <div class="container">
+        <!-- Back button -->
+        <div style="margin-bottom: var(--spacing-md);">
+            <a href="/" class="btn btn-primary" style="display: inline-block; text-decoration: none;">
+                ← Back to Search
+            </a>
+        </div>
+
+        <!-- Player Header -->
+        <div class="player-header">
+            <div class="player-name">{{ stats.name }}</div>
+            <div class="player-tag">{{ stats.tag }}</div>
+            <div style="margin-top: var(--spacing-md);">
+                <span class="badge badge-gold">King Level {{ stats.king_level }}</span>
+            </div>
+        </div>
+
+        <!-- Main Stats Grid -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-label">🏆 Trophies</div>
+                <div class="stat-value">{{ stats.trophies }}</div>
+                <div style="margin-top: var(--spacing-xs); color: var(--text-muted); font-size: 0.85rem;">
+                    Best: {{ stats.best_trophies }}
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-label">📊 Win Rate</div>
+                <div class="stat-value {% if stats.win_rate >= 50 %}green{% else %}red{% endif %}">
+                    {{ stats.win_rate }}%
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: {{ stats.win_rate }}%"></div>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-label">⚔️ Battles</div>
+                <div class="stat-value">{{ stats.total_battles }}</div>
+                <div style="margin-top: var(--spacing-xs); color: var(--text-secondary); font-size: 0.85rem;">
+                    {{ stats.wins }}W / {{ stats.losses }}L
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-label">👑 Three Crown Wins</div>
+                <div class="stat-value">{{ stats.three_crown_wins }}</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-label">🃏 Card Collection</div>
+                <div class="stat-value">{{ stats.total_cards }}</div>
+                <div style="margin-top: var(--spacing-xs); color: var(--text-muted); font-size: 0.85rem;">
+                    Avg Level: {{ stats.avg_card_level }}
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-label">📈 Recent Performance</div>
+                <div class="stat-value {% if stats.recent_win_rate >= 50 %}green{% else %}red{% endif %}">
+                    {{ stats.recent_win_rate }}%
+                </div>
+                <div style="margin-top: var(--spacing-xs); color: var(--text-secondary); font-size: 0.85rem;">
+                    {{ stats.recent_wins }}W / {{ stats.recent_losses }}L (Last {{ stats.recent_battles }})
+                </div>
+            </div>
+        </div>
+
+        <!-- Roast Section -->
+        {% if roasts %}
+        <div class="roast-section">
+            <h2 class="roast-title">🔥 The Roast Zone 🔥</h2>
+            {% for roast in roasts %}
+            <div class="roast-card">
+                <p class="roast-text">{{ roast }}</p>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <!-- Current Deck -->
+        {% if stats.current_deck %}
+        <div class="deck-section">
+            <h2 class="section-title">🎴 Current Deck</h2>
+            <div class="deck-grid">
+                {% for card in stats.current_deck %}
+                <div class="deck-card">
+                    <div class="card-name">
+                        {{ card.name }}
+                        {% if card.hasEvolution %}
+                        <span style="color: var(--cr-gold); font-size: 1rem;">⚡</span>
+                        {% endif %}
+                    </div>
+                    <div class="card-level">Lv {{ card.displayLevel }}</div>
+                    <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: var(--spacing-xs);">
+                        {{ card.rarity|capitalize }}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Performance Summary -->
+        <div class="card" style="margin-top: var(--spacing-xl);">
+            <h2 class="section-title">📋 Performance Summary</h2>
+            <div style="display: grid; gap: var(--spacing-md); margin-top: var(--spacing-md);">
+                <div>
+                    <strong style="color: var(--cr-gold);">Overall Record:</strong>
+                    <p style="color: var(--text-secondary); margin-top: var(--spacing-xs);">
+                        You've played {{ stats.total_battles }} battles with {{ stats.wins }} wins and {{ stats.losses
+                        }} losses,
+                        giving you a win rate of {{ stats.win_rate }}%.
+                        {% if stats.win_rate >= 55 %}
+                        That's pretty solid! Keep crushing it! 💪
+                        {% elif stats.win_rate >= 50 %}
+                        Not bad, you're holding your own out there! 👍
+                        {% else %}
+                        There's definitely room for improvement! 📈
+                        {% endif %}
+                    </p>
+                </div>
+
+                <div>
+                    <strong style="color: var(--cr-gold);">Trophy Progress:</strong>
+                    <p style="color: var(--text-secondary); margin-top: var(--spacing-xs);">
+                        Currently at {{ stats.trophies }} trophies. Your personal best is {{ stats.best_trophies }}.
+                        {% if stats.trophies >= stats.best_trophies %}
+                        You're at your peak! 🎯
+                        {% else %}
+                        You're {{ stats.best_trophies - stats.trophies }} trophies away from your best. Time to climb!
+                        ⬆️
+                        {% endif %}
+                    </p>
+                </div>
+
+                <div>
+                    <strong style="color: var(--cr-gold);">Recent Form:</strong>
+                    <p style="color: var(--text-secondary); margin-top: var(--spacing-xs);">
+                        In your last {{ stats.recent_battles }} battles, you've won {{ stats.recent_wins }} and lost {{
+                        stats.recent_losses }}.
+                        {% if stats.recent_win_rate > stats.win_rate %}
+                        You're on fire! Your recent form is better than your overall average! 🔥
+                        {% elif stats.recent_win_rate < stats.win_rate %} Hmm, you've been struggling lately. Maybe time
+                            to switch up your deck? 🤔 {% else %} You're maintaining your usual pace. Consistency is
+                            key! ⚖️ {% endif %} </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Search Again -->
+        <div style="text-align: center; margin-top: var(--spacing-xl); padding-bottom: var(--spacing-xl);">
+            <a href="/" class="btn btn-primary" style="text-decoration: none;">
+                🔍 Search Another Player
+            </a>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <script>
+        // Animate progress bars on load
+        window.addEventListener('load', () => {
+            const progressBars = document.querySelectorAll('.progress-fill');
+            progressBars.forEach(bar => {
+                const width = bar.style.width;
+                bar.style.width = '0';
+                setTimeout(() => {
+                    bar.style.width = width;
+                }, 100);
+            });
+        });
+    </script>
+</body>
+
+</html>

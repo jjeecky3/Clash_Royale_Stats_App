@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo - Clash Royale Stats & Roast</title>
+    <link rel="stylesheet" href="../static/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="bg-animated"></div>
+
+    <div class="container">
+        <!-- Player Header -->
+        <div class="player-header">
+            <div class="player-name">ProGamer2025</div>
+            <div class="player-tag">#ABC123</div>
+            <div style="margin-top: var(--spacing-md);">
+                <span class="badge badge-gold">King Level 14</span>
+            </div>
+        </div>
+
+        <!-- Main Stats Grid -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-label">🏆 Trophies</div>
+                <div class="stat-value">5234</div>
+                <div style="margin-top: var(--spacing-xs); color: var(--text-muted); font-size: 0.85rem;">
+                    Best: 5789
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-label">📊 Win Rate</div>
+                <div class="stat-value green">
+                    52.3%
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 52.3%"></div>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-label">⚔️ Battles</div>
+                <div class="stat-value">1543</div>
+                <div style="margin-top: var(--spacing-xs); color: var(--text-secondary); font-size: 0.85rem;">
+                    807W / 736L
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-label">👑 Three Crown Wins</div>
+                <div class="stat-value">412</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-label">🃏 Card Collection</div>
+                <div class="stat-value">107</div>
+                <div style="margin-top: var(--spacing-xs); color: var(--text-muted); font-size: 0.85rem;">
+                    Avg Level: 11.2
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-label">📈 Recent Performance</div>
+                <div class="stat-value red">
+                    40.0%
+                </div>
+                <div style="margin-top: var(--spacing-xs); color: var(--text-secondary); font-size: 0.85rem;">
+                    4W / 6L (Last 10)
+                </div>
+            </div>
+        </div>
+
+        <!-- Roast Section -->
+        <div class="roast-section">
+            <h2 class="roast-title">🔥 The Roast Zone 🔥</h2>
+
+            <div class="roast-card">
+                <p class="roast-text">You've lost 6 of your last 10 battles. At least you're consistent! 📊</p>
+            </div>
+
+            <div class="roast-card">
+                <p class="roast-text">You're 555 trophies away from your best. Time to climb! ⬆️</p>
+            </div>
+
+            <div class="roast-card">
+                <p class="roast-text">Your recent form is struggling. Maybe time to switch up your deck? 🤔</p>
+            </div>
+        </div>
+
+        <!-- Current Deck -->
+        <div class="deck-section">
+            <h2 class="section-title">🎴 Current Deck</h2>
+            <div class="deck-grid">
+                <div class="deck-card">
+                    <div class="card-name">Hog Rider</div>
+                    <div class="card-level">Lv 11</div>
+                </div>
+                <div class="deck-card">
+                    <div class="card-name">Fireball</div>
+                    <div class="card-level">Lv 11</div>
+                </div>
+                <div class="deck-card">
+                    <div class="card-name">Valkyrie</div>
+                    <div class="card-level">Lv 12</div>
+                </div>
+                <div class="deck-card">
+                    <div class="card-name">Musketeer</div>
+                    <div class="card-level">Lv 11</div>
+                </div>
+                <div class="deck-card">
+                    <div class="card-name">Cannon</div>
+                    <div class="card-level">Lv 10</div>
+                </div>
+                <div class="deck-card">
+                    <div class="card-name">Log</div>
+                    <div class="card-level">Lv 10</div>
+                </div>
+                <div class="deck-card">
+                    <div class="card-name">Ice Spirit</div>
+                    <div class="card-level">Lv 11</div>
+                </div>
+                <div class="deck-card">
+                    <div class="card-name">Skeletons</div>
+                    <div class="card-level">Lv 11</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Performance Summary -->
+        <div class="card" style="margin-top: var(--spacing-xl);">
+            <h2 class="section-title">📋 Performance Summary</h2>
+            <div style="display: grid; gap: var(--spacing-md); margin-top: var(--spacing-md);">
+                <div>
+                    <strong style="color: var(--cr-gold);">Overall Record:</strong>
+                    <p style="color: var(--text-secondary); margin-top: var(--spacing-xs);">
+                        You've played 1543 battles with 807 wins and 736 losses,
+                        giving you a win rate of 52.3%.
+                        Not bad, you're holding your own out there! 👍
+                    </p>
+                </div>
+
+                <div>
+                    <strong style="color: var(--cr-gold);">Trophy Progress:</strong>
+                    <p style="color: var(--text-secondary); margin-top: var(--spacing-xs);">
+                        Currently at 5234 trophies. Your personal best is 5789.
+                        You're 555 trophies away from your best. Time to climb! ⬆️
+                    </p>
+                </div>
+
+                <div>
+                    <strong style="color: var(--cr-gold);">Recent Form:</strong>
+                    <p style="color: var(--text-secondary); margin-top: var(--spacing-xs);">
+                        In your last 10 battles, you've won 4 and lost 6.
+                        Hmm, you've been struggling lately. Maybe time to switch up your deck? 🤔
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div
+            style="text-align: center; margin-top: var(--spacing-xl); padding: var(--spacing-lg); background: rgba(255,215,0,0.1); border-radius: var(--radius-md); border: 2px dashed var(--cr-gold);">
+            <h3 style="color: var(--cr-gold); margin-bottom: var(--spacing-sm);">📋 Demo Mode</h3>
+            <p style="color: var(--text-secondary);">
+                This is a demo showing sample data. To use the real application with live Clash Royale data,
+                install Flask and configure your API token as described in the README.
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Animate progress bars on load
+        window.addEventListener('load', () => {
+            const progressBars = document.querySelectorAll('.progress-fill');
+            progressBars.forEach(bar => {
+                const width = bar.style.width;
+                bar.style.width = '0';
+                setTimeout(() => {
+                    bar.style.width = width;
+                }, 100);
+            });
+        });
+    </script>
+</body>
+
+</html>
