@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
@@ -7,7 +8,7 @@ class ImageHelper {
     if (kIsWeb) {
       // Proxy through local server on web
       final encodedUrl = Uri.encodeComponent(originalUrl);
-      return'http://localhost:3000/api/image?url=$encodedUrl';
+      return 'http://localhost:3000/api/image?url=$encodedUrl';
     }
     return originalUrl;
   }

@@ -23,85 +23,93 @@ class DeckCard extends StatelessWidget {
       imageUrl = card.iconUrls!['medium'];
     }
 
-    return Container(
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: const Color(0xFF252D3D),
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-          color: Colors.white.withOpacity(0.08),
-          width: 2,
-        ),
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          // Card image
-          if (imageUrl != null)
-            CachedNetworkImage(
-              imageUrl: ImageHelper.getImageUrl(imageUrl),
-              width: 90,
-              height: 90,
-              fit: BoxFit.contain,
-              placeholder: (context, url) => const SizedBox(
-                width: 90,
-                height: 90,
-                child: Center(child: CircularProgressIndicator()),
-              ),
-              errorWidget: (context, url, error) => const Icon(
-                Icons.error,
-                size: 90,
-                color: Colors.grey,
-              ),
-            )
-          else
-            const SizedBox(
-              width: 90,
-              height: 90,
-              child: Icon(Icons.image, size: 90, color: Colors.grey),
-            ),
-          const SizedBox(height: 8),
-          // Card name
-          Text(
-            card.name,
-            style: const TextStyle(
-              color: Color(0xFFF2F2F2),
-              fontSize: 14,
-              fontWeight: FontWeight.w600,
-            ),
-            textAlign: TextAlign.center,
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-          ),
-          if (card.hasEvolution)
-            const Text(
-              '⚡',
-              style: TextStyle(
-                color: Color(0xFFFFD700),
-                fontSize: 16,
-              ),
-            ),
-          const SizedBox(height: 4),
-          // Card level
-          Text(
-            'Lv ${card.displayLevel}',
-            style: const TextStyle(
-              color: Color(0xFFFFD700),
-              fontSize: 18,
-              fontWeight: FontWeight.w700,
+    // Use LayoutBuilder for responsive sizing
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        // More compact for mobile (typically width < 140)
+        final bool isMobile = constraints.maxWidth < 140;
+
+        return Container(
+          padding: EdgeInsets.all(isMobile ? 8 : 12),
+          decoration: BoxDecoration(
+            color: const Color(0xFF252D3D),
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(
+              color: Colors.white.withOpacity(0.08),
+              width: 2,
             ),
           ),
-          const SizedBox(height: 2),
-          // Rarity
-          Text(
-            _capitalize(card.rarity),
-            style: const TextStyle(
-              color: Color(0xFF8C8C8C),
-              fontSize: 12,
-            ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // Card image
+              if (imageUrl != null)
+                CachedNetworkImage(
+                  imageUrl: ImageHelper.getImageUrl(imageUrl),
+                  width: isMobile ? 60 : 90,
+                  height: isMobile ? 60 : 90,
+                  fit: BoxFit.contain,
+                  placeholder: (context, url) => SizedBox(
+                    width: isMobile ? 60 : 90,
+                    height: isMobile ? 60 : 90,
+                    child: const Center(child: CircularProgressIndicator()),
+                  ),
+                  errorWidget: (context, url, error) => Icon(
+                    Icons.error,
+                    size: isMobile ? 60 : 90,
+                    color: Colors.grey,
+                  ),
+                )
+              else
+                SizedBox(
+                  width: isMobile ? 60 : 90,
+                  height: isMobile ? 60 : 90,
+                  child: Icon(Icons.image, size: isMobile ? 60 : 90, color: Colors.grey),
+                ),
+              SizedBox(height: isMobile ? 4 : 8),
+              // Card name
+              Text(
+                card.name,
+                style: TextStyle(
+                  color: const Color(0xFFF2F2F2),
+                  fontSize: isMobile ? 11 : 14,
+                  fontWeight: FontWeight.w600,
+                ),
+                textAlign: TextAlign.center,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
+              if (card.hasEvolution)
+                Text(
+                  '⚡',
+                  style: TextStyle(
+                    color: const Color(0xFFFFD700),
+                    fontSize: isMobile ? 12 : 16,
+                  ),
+                ),
+              SizedBox(height: isMobile ? 2 : 4),
+              // Card level
+              Text(
+                'Lv ${card.displayLevel}',
+                style: TextStyle(
+                  color: const Color(0xFFFFD700),
+                  fontSize: isMobile ? 14 : 18,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+              SizedBox(height: isMobile ? 1 : 2),
+              // Rarity
+              Text(
+                _capitalize(card.rarity),
+                style: TextStyle(
+                  color: const Color(0xFF8C8C8C),
+                  fontSize: isMobile ? 9 : 12,
+                ),
+              ),
+            ],
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 
