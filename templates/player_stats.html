@@ -9,6 +9,15 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        .stat-icon img,
+        .roast-avatar img,
+        .player-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+    </style>
 </head>
 
 <body>
@@ -16,102 +25,152 @@
 
     <div class="container">
         <!-- Back button -->
-        <div style="margin-bottom: var(--spacing-md);">
+        <div class="mb-md">
             <a href="/" class="btn btn-primary" style="display: inline-block; text-decoration: none;">
                 ← Back to Search
             </a>
         </div>
 
-        <!-- Player Header -->
+        <!-- Player Header with wave background -->
         <div class="player-header">
-            <div class="player-name">{{ stats.name }}</div>
-            <div class="player-tag">{{ stats.tag }}</div>
-            <div style="margin-top: var(--spacing-md);">
-                <span class="badge badge-gold">King Level {{ stats.king_level }}</span>
+            <div class="player-avatar">
+                <span class="player-avatar-level">{{ stats.king_level }}</span>
+                <span class="player-avatar-crown">👑</span>
+                <span class="player-avatar-stars">⭐⭐⭐</span>
+                {% if stats.avatar_icon %}
+                <img src="{{ stats.avatar_icon }}" alt="Avatar" class="player-avatar-emoji"
+                    style="width: 60%; height: 60%; object-fit: contain;">
+                {% else %}
+                <span class="player-avatar-emoji">🤴</span>
+                {% endif %}
+            </div>
+            <div class="player-info">
+                <div class="player-name">{{ stats.name }}</div>
+                <div class="player-tag">{{ stats.tag }}</div>
             </div>
         </div>
 
-        <!-- Main Stats Grid -->
+        <!-- Main Stats Grid with Icons -->
         <div class="stats-grid">
+            <!-- Trophies -->
             <div class="stat-card">
-                <div class="stat-label">🏆 Trophies</div>
-                <div class="stat-value">{{ stats.trophies }}</div>
-                <div style="margin-top: var(--spacing-xs); color: var(--text-muted); font-size: 0.85rem;">
-                    Best: {{ stats.best_trophies }}
+                <div class="stat-icon">
+                    🏆
+                </div>
+                <div class="stat-content">
+                    <div class="stat-label">Trophies</div>
+                    <div class="stat-value">{{ stats.trophies }}</div>
+                    <div class="stat-subtext">Best: {{ stats.best_trophies }}</div>
                 </div>
             </div>
 
+            <!-- Win Rate -->
             <div class="stat-card">
-                <div class="stat-label">📊 Win Rate</div>
-                <div class="stat-value {% if stats.win_rate >= 50 %}green{% else %}red{% endif %}">
-                    {{ stats.win_rate }}%
+                <div class="stat-icon">
+                    📊
                 </div>
-                <div class="progress-bar">
-                    <div class="progress-fill" style="width: {{ stats.win_rate }}%"></div>
-                </div>
-            </div>
-
-            <div class="stat-card">
-                <div class="stat-label">⚔️ Battles</div>
-                <div class="stat-value">{{ stats.total_battles }}</div>
-                <div style="margin-top: var(--spacing-xs); color: var(--text-secondary); font-size: 0.85rem;">
-                    {{ stats.wins }}W / {{ stats.losses }}L
-                </div>
-            </div>
-
-            <div class="stat-card">
-                <div class="stat-label">👑 Three Crown Wins</div>
-                <div class="stat-value">{{ stats.three_crown_wins }}</div>
-            </div>
-
-            <div class="stat-card">
-                <div class="stat-label">🃏 Card Collection</div>
-                <div class="stat-value">{{ stats.total_cards }}</div>
-                <div style="margin-top: var(--spacing-xs); color: var(--text-muted); font-size: 0.85rem;">
-                    Avg Level: {{ stats.avg_card_level }}
+                <div class="stat-content">
+                    <div class="stat-label">Win Rate</div>
+                    <div class="stat-value {% if stats.win_rate >= 50 %}green{% else %}red{% endif %}">
+                        {{ stats.win_rate }}% {% if stats.win_rate >= 50 %}↑{% else %}↓{% endif %}
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill {% if stats.win_rate < 50 %}red{% endif %}"
+                            style="width: {{ stats.win_rate }}%"></div>
+                    </div>
+                    <div class="stat-subtext">{{ stats.win_rate }}% Win Rate</div>
                 </div>
             </div>
 
+            <!-- Battles -->
             <div class="stat-card">
-                <div class="stat-label">📈 Recent Performance</div>
-                <div class="stat-value {% if stats.recent_win_rate >= 50 %}green{% else %}red{% endif %}">
-                    {{ stats.recent_win_rate }}%
+                <div class="stat-icon">
+                    ⚔️
                 </div>
-                <div style="margin-top: var(--spacing-xs); color: var(--text-secondary); font-size: 0.85rem;">
-                    {{ stats.recent_wins }}W / {{ stats.recent_losses }}L (Last {{ stats.recent_battles }})
+                <div class="stat-content">
+                    <div class="stat-label">Battles</div>
+                    <div class="stat-value">{{ stats.total_battles }}</div>
+                    <div class="stat-subtext">{{ stats.wins }}W / {{ stats.losses }}L</div>
+                </div>
+            </div>
+
+            <!-- Three Crown Wins -->
+            <div class="stat-card">
+                <div class="stat-icon">
+                    👑
+                </div>
+                <div class="stat-content">
+                    <div class="stat-label">Three Crown Wins</div>
+                    <div class="stat-value">{{ stats.three_crown_wins }}</div>
+                </div>
+            </div>
+
+            <!-- Card Collection -->
+            <div class="stat-card">
+                <div class="stat-icon">
+                    🎴
+                </div>
+                <div class="stat-content">
+                    <div class="stat-label">Card Collection</div>
+                    <div class="stat-value">{{ stats.total_cards }}</div>
+                    <div class="stat-subtext">Avg Level: {{ stats.avg_card_level }}</div>
+                </div>
+            </div>
+
+            <!-- Recent Performance -->
+            <div class="stat-card">
+                <div class="stat-icon">
+                    {% if stats.recent_win_rate >= 50 %}📈{% else %}📉{% endif %}
+                </div>
+                <div class="stat-content">
+                    <div class="stat-label">Recent Performance</div>
+                    <div class="stat-value {% if stats.recent_win_rate >= 50 %}green{% else %}red{% endif %}">
+                        {{ stats.recent_win_rate }}% {% if stats.recent_win_rate >= 50 %}↑{% else %}↓{% endif %}
+                    </div>
+                    <div class="stat-subtext">{{ stats.recent_wins }}W / {{ stats.recent_losses }}L (Last {{
+                        stats.recent_battles }})</div>
                 </div>
             </div>
         </div>
 
-        <!-- Roast Section -->
+        <!-- Roast Section with custom emote images -->
         {% if roasts %}
         <div class="roast-section">
             <h2 class="roast-title">🔥 The Roast Zone 🔥</h2>
-            {% for roast in roasts %}
-            <div class="roast-card">
-                <p class="roast-text">{{ roast }}</p>
+
+            <div class="roast-grid">
+                {% for roast in roasts %}
+                <div class="roast-card">
+                    <div class="roast-avatar">
+                        <img src="{{ url_for('static', filename='emotes/' + roast.emote) }}" alt="Emote">
+                    </div>
+                    <p class="roast-text">{{ roast.text }}</p>
+                </div>
+                {% endfor %}
             </div>
-            {% endfor %}
         </div>
         {% endif %}
 
         <!-- Current Deck -->
         {% if stats.current_deck %}
-        <div class="deck-section">
+        <div class="deck-section mt-xl">
             <h2 class="section-title">🎴 Current Deck</h2>
             <div class="deck-grid">
                 {% for card in stats.current_deck %}
                 <div class="deck-card">
+                    {% if card.hasEvolution and card.iconUrls and card.iconUrls.evolutionMedium %}
+                    <img src="{{ card.iconUrls.evolutionMedium }}" alt="{{ card.name }}" class="deck-card-image">
+                    {% elif card.iconUrls and card.iconUrls.medium %}
+                    <img src="{{ card.iconUrls.medium }}" alt="{{ card.name }}" class="deck-card-image">
+                    {% endif %}
                     <div class="card-name">
                         {{ card.name }}
                         {% if card.hasEvolution %}
-                        <span style="color: var(--cr-gold); font-size: 1rem;">⚡</span>
+                        <span style="color: var(--cr-gold);">⚡</span>
                         {% endif %}
                     </div>
                     <div class="card-level">Lv {{ card.displayLevel }}</div>
-                    <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: var(--spacing-xs);">
-                        {{ card.rarity|capitalize }}
-                    </div>
+                    <div class="card-rarity">{{ card.rarity }}</div>
                 </div>
                 {% endfor %}
             </div>
@@ -119,7 +178,7 @@
         {% endif %}
 
         <!-- Performance Summary -->
-        <div class="card" style="margin-top: var(--spacing-xl);">
+        <div class="card mt-xl">
             <h2 class="section-title">📋 Performance Summary</h2>
             <div style="display: grid; gap: var(--spacing-md); margin-top: var(--spacing-md);">
                 <div>
@@ -166,7 +225,7 @@
         </div>
 
         <!-- Search Again -->
-        <div style="text-align: center; margin-top: var(--spacing-xl); padding-bottom: var(--spacing-xl);">
+        <div class="text-center mt-xl" style="padding-bottom: var(--spacing-xl);">
             <a href="/" class="btn btn-primary" style="text-decoration: none;">
                 🔍 Search Another Player
             </a>

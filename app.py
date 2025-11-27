@@ -136,54 +136,92 @@ def analyze_stats(player_data):
         processed_deck.append(processed_card)
     stats['current_deck'] = processed_deck
     
+    # Extract icon URLs
+    # Player badge icon
+    badges = player_data.get('badges', [])
+    stats['badge_icon'] = badges[0]['iconUrls']['large'] if badges and 'iconUrls' in badges[0] else None
+    
+    # Favorite card icon (for player avatar)
+    fav_card = player_data.get('currentFavouriteCard', {})
+    stats['avatar_icon'] = fav_card.get('iconUrls', {}).get('medium', None)
+    
+    # Emote-style reactions for roast cards (representing CR emote expressions)
+    stats['roast_emotes'] = ['😭', '🤨', '😬', '🤷', '😤']
+    
     return stats
 
 def generate_roasts(stats):
-    """Generate humorous roasts based on player stats"""
-    roasts = []
+    """Generate humorous roasts with matching emotes based on player stats"""
+    roasts_with_emotes = []
     config = ROAST_CONFIG
     
     # Check win rate
     win_rate = stats['win_rate']
+    avg_card_level = stats['avg_card_level']
+    
     if win_rate < config['win_rate_thresholds']['terrible']:
         roast = random.choice(config['roasts']['low_win_rate'])
-        roasts.append(roast.format(win_rate=win_rate))
+        # Use goblin cry if they have high card levels but low win rate (most annoying)
+        emote = 'goblin_cry-removebg-preview.png' if avg_card_level >= 10 else '67-removebg-preview.png'
+        roasts_with_emotes.append({
+            'text': roast.format(win_rate=win_rate),
+            'emote': emote
+        })
     elif win_rate < config['win_rate_thresholds']['mediocre']:
         roast = random.choice(config['roasts']['low_win_rate'])
-        roasts.append(roast.format(win_rate=win_rate))
+        emote = '67-removebg-preview.png'
+        roasts_with_emotes.append({
+            'text': roast.format(win_rate=win_rate),
+            'emote': emote
+        })
     
     # Check trophies
     trophies = stats['trophies']
     king_level = stats['king_level']
     if trophies < config['trophy_thresholds']['low']:
         roast = random.choice(config['roasts']['low_trophies'])
-        roasts.append(roast.format(trophies=trophies, king_level=king_level))
+        emote = 'goblin_cry-removebg-preview.png'  # General annoying emote
+        roasts_with_emotes.append({
+            'text': roast.format(trophies=trophies, king_level=king_level),
+            'emote': emote
+        })
     
     # Check card levels
-    avg_card_level = stats['avg_card_level']
-    if avg_card_level < 10:
+    if avg_card_level < 9:
         roast = random.choice(config['roasts']['card_levels'])
-        roasts.append(roast.format(avg_card_level=avg_card_level))
+        emote = 'yawn-removebg-preview (1).png'  # Low card levels
+        roasts_with_emotes.append({
+            'text': roast.format(avg_card_level=avg_card_level),
+            'emote': emote
+        })
     
     # Check recent performance
     if stats['recent_battles'] > 0:
         recent_losses = stats['recent_losses']
         if recent_losses >= 6:  # Lost 6+ of last 10 battles
             roast = random.choice(config['roasts']['losses'])
-            roasts.append(roast.format(
-                losses=recent_losses,
-                total_battles=stats['recent_battles']
-            ))
+            emote = 'hog-removebg-preview.png'  # Can't win lately
+            roasts_with_emotes.append({
+                'text': roast.format(
+                    losses=recent_losses,
+                    total_battles=stats['recent_battles']
+                ),
+                'emote': emote
+            })
     
-    # If no roasts (good player), give some praise with a challenge
-    if not roasts:
+    # If no roasts (good player), give some praise
+    if not roasts_with_emotes:
         roast = random.choice(config['roasts']['good_performance'])
-        roasts.append(roast.format(
-            win_rate=win_rate,
-            trophies=trophies
-        ))
+        emote = 'king.png'  # Good performance
+        roasts_with_emotes.append({
+            'text': roast.format(
+                win_rate=win_rate,
+                trophies=trophies
+            ),
+            'emote': emote
+        })
     
-    return roasts
+    return roasts_with_emotes
 
 @app.route('/')
 def index():
