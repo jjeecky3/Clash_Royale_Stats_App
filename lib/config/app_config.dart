@@ -44,6 +44,11 @@ class AppConfig {
   };
 
   static const Map<String, List<String>> roasts = {
+    'terrible_win_rate': [
+      'With a {win_rate}% win rate, maybe Clash Royale isn\'t your game... have you tried Candy Crush? 🍬',
+      '{win_rate}%? That\'s not a win rate, that\'s a cry for help! 😭',
+      'A {win_rate}% win rate means you\'re basically donating trophies. Very generous! 🎁',
+    ],
     'low_win_rate': [
       'With a {win_rate}% win rate, you might want to reconsider your deck... or maybe just reconsider playing! 😅',
       '{win_rate}% win rate? The AI must be carrying you in those wins! 🤖',
@@ -56,16 +61,34 @@ class AppConfig {
     ],
     'card_levels': [
       'Average card level {avg_card_level}? Time to open some chests! 📦',
-      'With card level {avg_card_level}, you\'re bringing a wooden sword to a lightsaber fight! ⚔️',
+      'With average card level {avg_card_level}, you\'re bringing a wooden sword to a lightsaber fight! ⚔️',
+      'Average card level {avg_card_level}? Your opponents are laughing before the match even starts! 😂',
     ],
     'losses': [
       'You lost {losses} out of {total_battles} recent battles. Maybe it\'s time for a break? ☕',
       '{losses} losses recently? Your deck is crying for help! 😭',
+      '{losses} losses in {total_battles} games? Ouch! That\'s gotta hurt. 🤕',
     ],
-    'good_performance': [
-      '{win_rate}% win rate and {trophies} trophies? Not bad, not bad at all! Keep it up! 👑',
+    'loss_streak': [
+      '{streak} losses in a row? Time to uninstall and reinstall... might help! 🔄',
+      'A {streak} loss streak? Even your cards want to quit! 🏳️',
+      '{streak} straight losses? The game is trying to tell you something! 📢',
+    ],
+    'excellent_performance': [
+      '{win_rate}% win rate and {trophies} trophies? You\'re absolutely crushing it! Keep dominating! 👑',
       'Impressive stats! You\'re actually good at this game! 🏆',
       'Great performance! Your opponents must be scared when they see you! 💪',
+      '{win_rate}%? Now that\'s what I call skill! Your opponents don\'t stand a chance! ⚡',
+    ],
+    'good_performance': [
+      '{win_rate}% win rate and {trophies} trophies? Not bad, not bad at all! Keep it up! 👍',
+      'Solid performance! You know what you\'re doing! 💪',
+      '{win_rate}%? Pretty good! You\'re above average for sure! 📈',
+    ],
+    'average_performance': [
+      '{win_rate}% win rate? You\'re perfectly average. Congrats on being... average! 🤷',
+      'With a {win_rate}% win rate, you\'re neither good nor bad. Just... there. 😐',
+      '{win_rate}%? You\'re the definition of mediocre. Not an insult, just facts! 📊',
     ],
   };
 }

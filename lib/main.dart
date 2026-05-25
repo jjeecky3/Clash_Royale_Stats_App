@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'providers/player_provider.dart';
 import 'screens/home_screen.dart';
+import 'screens/deck_builder_screen.dart';
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
@@ -40,6 +41,9 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
         ),
         home: const HomeScreen(),
+        routes: {
+          '/deck-builder': (context) => const DeckBuilderScreen(),
+        },
       ),
     );
   }

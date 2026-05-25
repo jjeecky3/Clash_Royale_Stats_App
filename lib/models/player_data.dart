@@ -12,6 +12,8 @@ class PlayerData {
   final List<Map<String, dynamic>> battleLog;
   final List<Map<String, dynamic>>? badges;
   final Map<String, dynamic>? currentFavouriteCard;
+  final int starPoints;
+  final int totalExpPoints;
 
   PlayerData({
     required this.name,
@@ -27,6 +29,8 @@ class PlayerData {
     required this.battleLog,
     this.badges,
     this.currentFavouriteCard,
+    required this.starPoints,
+    required this.totalExpPoints,
   });
 
   factory PlayerData.fromJson(Map<String, dynamic> json) {
@@ -57,6 +61,8 @@ class PlayerData {
       currentFavouriteCard: json['currentFavouriteCard'] != null
           ? Map<String, dynamic>.from(json['currentFavouriteCard'])
           : null,
+      starPoints: json['starPoints'] ?? 0,
+      totalExpPoints: json['totalExpPoints'] ?? json['expPoints'] ?? 0,
     );
   }
 }

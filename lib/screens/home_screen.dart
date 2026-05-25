@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../providers/player_provider.dart';
 import '../widgets/animated_background.dart';
 import '../widgets/feature_card.dart';
+import '../widgets/recent_searches_widget.dart';
 import 'stats_screen.dart';
+import 'track_progress_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -49,9 +53,42 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _buildMobileLayout() {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Clash Royale Stats'),
+        title: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Text(
+              '⚔️',
+              style: TextStyle(fontSize: 24),
+            ),
+            const SizedBox(width: 8),
+            ShaderMask(
+              shaderCallback: (bounds) => const LinearGradient(
+                colors: [
+                  Color(0xFFFFD700), // Gold
+                  Color(0xFFFFA500), // Orange-gold
+                  Color(0xFFFFD700), // Gold
+                ],
+              ).createShader(bounds),
+              child: const Text(
+                'Clash Royale Stats',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w900,
+                  color: Colors.white,
+                  letterSpacing: 0.5,
+                ),
+              ),
+            ),
+            const SizedBox(width: 8),
+            const Text(
+              '⚔️',
+              style: TextStyle(fontSize: 24),
+            ),
+          ],
+        ),
         backgroundColor: const Color(0xFF252D3D),
         elevation: 0,
+        centerTitle: true,
       ),
       backgroundColor: const Color(0xFF0F1419),
       body: ListView(
@@ -115,7 +152,10 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
           ),
-          const SizedBox(height: 32),
+          const SizedBox(height: 24),
+          // Recent Searches
+          const RecentSearchesWidget(),
+          const SizedBox(height: 24),
           // Features Section
           Text(
             'Features',
@@ -137,10 +177,31 @@ class _HomeScreenState extends State<HomeScreen> {
             'Humorous feedback based on performance',
           ),
           const SizedBox(height: 12),
-          _buildMobileFeatureItem(
-            '🏆',
-            'Track Progress',
-            'Monitor trophies and best decks',
+          GestureDetector(
+            onTap: () {
+              Navigator.pushNamed(context, '/deck-builder');
+            },
+            child: _buildMobileFeatureItem(
+              '🃏',
+              'Deck Builder',
+              'Build and analyze your perfect deck',
+            ),
+          ),
+          const SizedBox(height: 12),
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const TrackProgressScreen(),
+                ),
+              );
+            },
+            child: _buildMobileFeatureItem(
+              '🏆',
+              'Track Progress',
+              'Monitor trophies and best decks',
+            ),
           ),
         ],
       ),
@@ -189,6 +250,25 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  Widget _buildWebFeatureCard({
+    required String emoji,
+    required String title,
+    required String description,
+    required VoidCallback onTap,
+  }) {
+    return SizedBox(
+      width: 300,
+      child: GestureDetector(
+        onTap: onTap,
+        child: FeatureCard(
+          emoji: emoji,
+          title: title,
+          description: description,
+        ),
+      ),
+    );
+  }
+
   Widget _buildWebLayout() {
     return Scaffold(
       backgroundColor: const Color(0xFF0F1419),
@@ -204,30 +284,49 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   // Header
                   const SizedBox(height: 48),
-                  ShaderMask(
-                    shaderCallback: (bounds) => const LinearGradient(
-                      colors: [Color(0xFFFFD700), Color(0xFFFFA500)],
-                    ).createShader(bounds),
-                    child: const Text(
-                      '⚔️ Clash Royale Stats ⚔️',
-                      style: TextStyle(
-                        fontSize: 48,
-                        fontWeight: FontWeight.w800,
-                        color: Colors.white,
-                        height: 1.2,
+                  // Title with gradient and emojis
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text(
+                        '⚔️',
+                        style: TextStyle(fontSize: 40),
                       ),
-                      textAlign: TextAlign.center,
-                    ),
+                      const SizedBox(width: 12),
+                      ShaderMask(
+                        shaderCallback: (bounds) => const LinearGradient(
+                          colors: [
+                            Color(0xFFFFD700), // Gold
+                            Color(0xFFFFA500), // Orange-gold
+                            Color(0xFFFFD700), // Gold
+                          ],
+                        ).createShader(bounds),
+                        child: const Text(
+                          'Clash Royale Stats',
+                          style: TextStyle(
+                            fontSize: 42,
+                            fontWeight: FontWeight.w900,
+                            color: Colors.white,
+                            letterSpacing: 1.2,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      const Text(
+                        '⚔️',
+                        style: TextStyle(fontSize: 40),
+                      ),
+                    ],
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 12),
+                  // Subtitle
                   const Text(
                     'Get roasted based on your performance! 🔥',
                     style: TextStyle(
-                      fontSize: 21,
+                      fontSize: 18,
                       color: Color(0xFFBFBFBF),
                       fontWeight: FontWeight.w400,
                     ),
-                    textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 48),
                   // Search card with rainbow border
@@ -360,7 +459,13 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 64),
+                  const SizedBox(height: 32),
+                  // Recent Searches
+                  Container(
+                    constraints: const BoxConstraints(maxWidth: 900),
+                    child: const RecentSearchesWidget(),
+                  ),
+                  const SizedBox(height: 48),
                   // Feature cards
                   LayoutBuilder(
                     builder: (context, constraints) {
@@ -368,8 +473,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         spacing: 24,
                         runSpacing: 24,
                         alignment: WrapAlignment.center,
-                        children: const [
-                          SizedBox(
+                        children: [
+                          const SizedBox(
                             width: 300,
                             child: FeatureCard(
                               emoji: '📈',
@@ -378,7 +483,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   'Comprehensive analysis of your battle performance',
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 300,
                             child: FeatureCard(
                               emoji: '🔥',
@@ -388,11 +493,29 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                           SizedBox(
                             width: 300,
-                            child: FeatureCard(
-                              emoji: '🏆',
-                              title: 'Track trophy\nprogress & best decks',
-                              description: 'Monitor your climbing journey',
+                            child: GestureDetector(
+                              onTap: () {
+                                Navigator.pushNamed(context, '/deck-builder');
+                              },
+                              child: const FeatureCard(
+                                emoji: '🃏',
+                                title: 'Build & analyze\nyour deck',
+                                description: 'Create the perfect deck with AI insights',
+                              ),
                             ),
+                          ),
+                          _buildWebFeatureCard(
+                            emoji: '🏆',
+                            title: 'Track trophy\nprogress & best decks',
+                            description: 'Monitor your climbing journey',
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const TrackProgressScreen(),
+                                ),
+                              );
+                            },
                           ),
                         ],
                       );

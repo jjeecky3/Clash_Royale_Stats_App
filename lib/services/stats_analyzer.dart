@@ -1,6 +1,7 @@
 import '../models/player_data.dart';
 import '../models/stats.dart';
 import '../models/card.dart';
+import '../models/battle_history_item.dart';
 import '../utils/card_level_converter.dart';
 
 class StatsAnalyzer {
@@ -72,14 +73,30 @@ class StatsAnalyzer {
           : 0.0;
     }
 
-    // Current deck - process to add display levels
-    final currentDeck = playerData.currentDeck.map((card) {
+    // Current deck - process to add display levels and calculate avg elixir
+    double totalElixir = 0;
+    int cardsWithElixir = 0;
+
+    final currentDeck = <CardModel>[];
+    for (var i = 0; i < playerData.currentDeck.length; i++) {
+      final card = playerData.currentDeck[i];
       final starLevel = card['level'] ?? 1;
       final rarity = card['rarity'] ?? 'common';
       final displayLevel = CardLevelConverter.convertCardLevel(starLevel, rarity);
+      
+      // Calculate elixir
+      if (card['elixirCost'] != null) {
+        totalElixir += card['elixirCost'];
+        cardsWithElixir++;
+      }
 
-      return CardModel.fromJson(card, displayLevel);
-    }).toList();
+      // Pass deck position (i) to enable position-based EVO/HERO detection
+      currentDeck.add(CardModel.fromJson(card, displayLevel, deckPosition: i));
+    }
+
+    final avgElixirCost = cardsWithElixir > 0 
+        ? (totalElixir / cardsWithElixir * 10).round() / 10 
+        : 0.0;
 
     // Extract icon URLs
     String? badgeIcon;
@@ -96,6 +113,47 @@ class StatsAnalyzer {
       if (iconUrls != null) {
         avatarIcon = iconUrls['medium'];
       }
+    }
+    
+    // Process favorite card
+    // Note: currentFavouriteCard doesn't include level, only maxLevel and rarity
+    CardModel? favoriteCard;
+    if (playerData.currentFavouriteCard != null) {
+      final card = playerData.currentFavouriteCard!;
+      // Use 0 as displayLevel since we don't have the actual level
+      favoriteCard = CardModel.fromJson(card, 0);
+    }
+
+    // Parse battle history
+    final battleHistory = playerData.battleLog.map((battle) {
+      return BattleHistoryItem.fromJson(battle, tag);
+    }).toList();
+
+    // Calculate current win/loss streak
+    int currentStreak = 0;
+    String streakType = 'none';
+    
+    if (battleHistory.isNotEmpty) {
+      bool? lastResult;
+      for (var battle in battleHistory) {
+        bool isWin = battle.isVictory;
+        
+        if (lastResult == null) {
+          lastResult = isWin;
+          currentStreak = 1;
+          streakType = isWin ? 'win' : 'loss';
+        } else if (lastResult == isWin) {
+          currentStreak++;
+        } else {
+          break;
+        }
+      }
+    }
+
+    // Calculate three crown rate
+    double threeCrownRate = 0.0;
+    if (wins > 0) {
+      threeCrownRate = (threeCrownWins / wins * 100 * 10).round() / 10;
     }
 
     return Stats(
@@ -119,6 +177,14 @@ class StatsAnalyzer {
       currentDeck: currentDeck,
       badgeIcon: badgeIcon,
       avatarIcon: avatarIcon,
+      favoriteCard: favoriteCard,
+      starPoints: playerData.starPoints,
+      totalExpPoints: playerData.totalExpPoints,
+      avgElixirCost: avgElixirCost,
+      battleHistory: battleHistory,
+      currentStreak: currentStreak,
+      streakType: streakType,
+      threeCrownRate: threeCrownRate,
     );
   }
 }

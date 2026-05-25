@@ -48,6 +48,19 @@ class ApiService {
       }
 
       final playerData = json.decode(profileResponse.body);
+      
+      // Fetch battle log from separate endpoint
+      final battleLogUri = Uri.parse('$baseUrl/players/${Uri.encodeComponent(playerTag)}/battlelog');
+      final battleLogResponse = await http.get(battleLogUri, headers: headers);
+      
+      if (battleLogResponse.statusCode == 200) {
+        final battleLogData = json.decode(battleLogResponse.body) as List<dynamic>;
+        playerData['battleLog'] = battleLogData;
+      } else {
+        // If battle log fetch fails, just use empty list
+        playerData['battleLog'] = [];
+      }
+      
       return PlayerData.fromJson(playerData);
     } catch (e) {
       if (e is ApiException) {
