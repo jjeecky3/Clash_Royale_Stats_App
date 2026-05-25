@@ -46,3 +46,9 @@ app.*.map.json
 
 # Debugging screenshots
 screen.png
+
+# Environment files with real secrets (keep .env.example only)
+assets/.env
+
+# Analysis/debug output files
+analysis_output*.txt
