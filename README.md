@@ -2,6 +2,11 @@
 
 A cross-platform Flutter application that fetches player statistics from the Clash Royale API and provides entertaining roasts based on performance metrics! Available for Web and Android.
 
+<img width="500" height="1200" alt="Screenshot_20260120-101148" src="https://github.com/user-attachments/assets/c6c0d247-f708-456e-8779-b8abf83b8c5e" /> 
+
+<img width="500" height="1200" alt="Screenshot_20260120-101200" src="https://github.com/user-attachments/assets/44d84ea0-1ee7-439f-bfe5-6668f51c6394" />
+
+
 ## ✨ Features
 
 - 🎮 **Real-time Stats**: Fetch live player data from the official Clash Royale API
