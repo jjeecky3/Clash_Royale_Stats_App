@@ -242,8 +242,8 @@ project_v2/
 ## 🎮 Example Player Tags
 
 Try these popular players:
-- `#2PP`
-- `#Y9UVY82C`
+- `#C0V0UQ9UY`
+- `#PRLGCJGC`
 
 ## 🔒 Privacy & Security
 
